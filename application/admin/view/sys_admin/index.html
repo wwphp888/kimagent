@@ -1,0 +1,102 @@
+{layout name="/common"/}
+
+<div class="operate-section">
+    <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+    <a class="btn btn-sm btn-primary" onclick="create()">新增</a>
+    <a class="btn btn-sm btn-primary" onclick="update()">修改</a>
+    <a class="btn btn-sm btn-warning" onclick="handleStatus(0)">禁用</a>
+    <a class="btn btn-sm btn-warning" onclick="handleStatus(1)">启用</a>
+    <a class="btn btn-sm btn-danger" onclick="del()">删除</a>
+</div>
+
+<table id="table" lay-filter="table"></table>
+
+<script>
+    table.render({
+        elem: '#table',
+        url : '/admin/sysAdmin',
+        id: 'tableins',
+        cellMinWidth : 95,
+        limit : 20,
+        limits : [10,20,30,50],
+        cols : [[
+            {type: "checkbox", fixed:"left"},
+            {field: 'fId', title: 'ID', align:'center'},
+            {field: 'fName', title: '名称', align:'center'},
+            {field: 'mobile', title: '手机', align:'center'},
+            {field: 'fStatus', title: '状态', align:'center',  templet:function(d){
+                    return d.fStatus == 1 ? '正常' : '封禁';
+                }},
+            {field: 'role', title: '角色', align:'center'},
+            {field: 'fCreateTime', title: '创建时间', align:'center'}
+        ]]
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+
+    //创建
+    function create () {
+        dialog('/admin/sysAdmin/create', '添加管理员', 600);
+    }
+
+    //修改
+    function update () {
+        var checkData = table.checkStatus('tableins').data;
+        if (checkData.length < 1) {
+            error("请选择数据");
+            return;
+        }
+        dialog('/admin/sysAdmin/update?id=' + checkData[0]['fId'], '修改管理员', 600);
+    }
+
+    //改变状态
+    function handleStatus (status) {
+        var checkData = table.checkStatus('tableins').data;
+        if (checkData.length < 1) {
+            error("请选择数据");
+            return;
+        }
+        var id = checkData.column('fId').join(',');
+        layer.confirm('确定执行该操作？', {icon: 3, title: '提示信息'}, function (index) {
+            $.post("/admin/sysAdmin/handleStatus",{ id, status }, function(ret) {
+                if (ret.code == 0) {
+                    table.reload('tableins');
+                    success(ret.msg);
+                    layer.close(index);
+                } else {
+                    error(ret.msg);
+                }
+            })
+        })
+    }
+
+    //改变状态
+    function del () {
+        var checkData = table.checkStatus('tableins').data;
+        if (checkData.length < 1) {
+            error("请选择数据");
+            return;
+        }
+        var id = checkData[0]['fId'];
+        layer.confirm('确定删除？', {icon: 3, title: '提示信息'}, function (index) {
+            $.post("/admin/sysAdmin/delete",{ id }, function(ret) {
+                if (ret.code == 0) {
+                    table.reload('tableins');
+                    success(ret.msg);
+                    layer.close(index);
+                } else {
+                    error(ret.msg);
+                }
+            })
+        })
+    }
+</script>

@@ -1,0 +1,174 @@
+{layout name="/common"}
+<div class="operate-section">
+    <form class="layui-form row">
+        <div class="col-sm-4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">关键词</label>
+                <div class="layui-input-block">
+                    <input class="layui-input layui-input" name="keyword" placeholder="用户账号/id委托id/归属节点"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">交易类型：</label>
+                <div class="layui-input-block">
+                    <select name="c_type">
+                        <option value="">全部</option>
+                        <option value="1">买入做多</option>
+                        <option value="2">卖出做空</option>
+                        <option value="3">买入平空</option>
+                        <option value="4">卖出平多</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">委托单来源：</label>
+                <div class="layui-input-block">
+                    <select name="delegate_type">
+                        <option value="">全部</option>
+                        <option value="0">用户委托</option>
+                        <option value="1">系统强平</option>
+                        <option value="2">强制平仓</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">合约：</label>
+                <div class="layui-input-block">
+                    <select name="c_id">
+                        <option value="">全部</option>
+                        {foreach $contracts as $k => $v}
+                        <option value="{$k}">{$v}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">委托单状态：</label>
+                <div class="layui-input-block">
+                    <select name="c_state">
+                        <option value="">全部</option>
+                        <option value="1">委托中</option>
+                        <option value="2">部分成交</option>
+                        <option value="3">已完成</option>
+                        <option value="4">已撤销</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <button class="btn btn-sm btn-primary" lay-submit lay-filter="search">搜索</button>
+                    <button class="btn btn-sm btn-white" type="reset">重置</button>
+                    <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+                    <a class="btn btn-sm btn-info export-excel">导出</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">开始时间：</label>
+                <div class="layui-input-block">
+                    <input class="layui-input layui-date" name="add_time[]"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">结束时间：</label>
+                <div class="layui-input-block">
+                    <input class="layui-input layui-date" name="add_time[]"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table id="table" lay-filter="table"></table>
+
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/contract.order',
+        id: 'tableins',
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        height : "full-200",
+        cols : [[
+            {field: 'id', title: 'ID', width: 100},
+            {field: 'floginName', title: '用户账号', width: 200},
+            {field: 'user_type', title: '用户类型', width: 100, templet:function(d){
+                    if (d.user_type == 0) return '普通用户1';
+                    else if (d.user_type == 1) return '一级节点商';
+                    else if (d.user_type == 2) return '管理员';
+                    else if (d.user_type == 3) return '二级节点';
+                    else return '';
+                }},
+            {field: 'user_node', title: '归属节点', width: 100},
+            {field: 'c_order_number', title: '委托ID', width: 300},
+            {field: 'c_nmae_en', title: '合约', width: 100},
+            {field: 'contract_cate', title: '合约类型', width: 100, templet:function(d){
+                if (d.contract_cate == 1) return '永续';
+                else if (d.contract_cate == 2) return '交割';
+                else return '';
+            }},
+            {field: 'status', title: '交易类型', width: 100, templet:function(d){
+                var type = d.c_type.toString() + d.open_type.toString();
+                if (type == 00) return '买入做多';
+                else if (type == 10) return '卖出做空';
+                else if (type == 01) return '买入平空';
+                else if (type == 11) return '卖出平多';
+                else return '';
+            }},
+            {field: 'e_state', title: '委托单类型', width: 100, templet:function(d){
+                if (d.e_state == 0) return '限价委托';
+                else if (d.e_state == 1) return '计划委托';
+                else return '';
+            }},
+            {field: 'delegate_type', title: '委托来源',  width: 200, templet:function(d){
+                if (d.delegate_type == 0) return '用户委托';
+                else if (d.delegate_type == 1) return '系统强平';
+                else if (d.delegate_type == 2) return '强制平仓';
+                else return '';
+            }},
+            {field: 'e_price', title: '委托价格',  width: 200},
+            {field: 'e_number', title: '委托数量',  width: 200},
+            {field: 'freeze_deposit', title: '冻结保证金',  width: 200},
+            {field: 'make_number', title: '已成交数量',  width: 200},
+            {field: 'make_mean_price', title: '成交均价',  width: 200},
+            {field: 'make_fee', title: '成交手续费',  width: 200},
+            {field: 'update_time', title: '最后成交时间',  width: 200},
+            {field: 'add_time', title: '创建时间',  width: 200},
+            {field: 'c_state', title: '委托单状态', width: 100, templet:function(d){
+                    if (d.c_state == 1) return '委托中';
+                    else if (d.c_state == 2) return '部分成交';
+                    else if (d.c_state == 3) return '已完成';
+                    else if (d.c_state == 4) return '已撤销';
+                    else return '';
+                }}
+        ]]
+    });
+
+    lay('.layui-date').each(function(){
+        laydate.render({
+            elem: this,
+            trigger: 'click',
+            type: 'datetime'
+        });
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+</script>

@@ -1,0 +1,90 @@
+{layout name="/common"}
+<div class="operate-section">
+    <form class="layui-form">
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <input class="layui-input layui-input" name="keyword" placeholder="会员信息">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <select name="c_id">
+                    <option value="">--账户类型--</option>
+                    {foreach $contracts as $k => $v}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <button class="btn btn-sm btn-primary" lay-submit lay-filter="search">搜索</button>
+                <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+                <a class="btn btn-sm btn-info export-excel">导出</a>
+                <a class="btn btn-sm btn-info" href="/admin/contract.airdrop/exporttemp">导出空投模板</a>
+                <a class="btn btn-sm btn-info" id="importtemp">上传空投模板</a>
+            </div>
+        </div>
+    </form>
+</div>
+<table id="table"></table>
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/contract.airdrop',
+        id : 'tableins',
+        height : 'full-85',
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        cols : [[
+            {field: 'uid', title: '用户ID', align:'center'},
+            {field: 'floginName', title: '用户账号', align:'center'},
+            {field: 'type', title: '空投类型', align:'center'},
+            {field: 'contract_name', title: '账户类型', align:'center'},
+            {field: 'coin_name', title: '空投币种', align:'center'},
+            {field: 'amount', title: '空投数量', align:'center'},
+            {field: 'note', title: '备注', align:'center'}
+        ]]
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+
+    function airdrop() {
+        layer.open({
+            type: 2,
+            title: '选择用户',
+            area: ['1000px', '600px'],
+            content: '/admin/contract.airdrop/selectuser',
+        })
+    }
+
+    upload.render({
+        elem: '#importtemp',
+        url: '/admin/contract.airdrop/importtemp?upload=1',
+        accept: 'file',
+        exts: 'csv',
+        done: function(res) {
+            if(res.code == 0) {
+                success(res.msg)
+            } else {
+                error(res.msg);
+            }
+        },
+        error: function() {
+            error('上传出错');
+        }
+    });
+
+</script>

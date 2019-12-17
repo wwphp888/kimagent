@@ -1,0 +1,94 @@
+<form action="/admin/coinsMarket/create" class="layui-form dialog row">
+    <div class="col-sm-4">
+        <div class="layui-form-item">
+            <label class="layui-form-label">交易市场</label>
+            <div class="layui-input-block">
+                <select name="buy_id">
+                    <option value="">--交易市场--</option>
+                    {foreach $coins as $k => $v}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">交易币种</label>
+            <div class="layui-input-block">
+                <select name="sell_id">
+                    <option value="">--交易币种--</option>
+                    {foreach $coins as $k => $v}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">小数位个数</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="decimals">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">买入手续费</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="buy_fee" placeholder="单位为%" >
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="layui-form-item">
+            <label class="layui-form-label">卖出手续费</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="sell_fee" placeholder="单位为%" >
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">最小交易量</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="min_count" placeholder="-1表示不限制" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">最大交易量</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="max_count" placeholder="-1表示不限制" >
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">最小价格</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="min_price" placeholder="-1表示不限制" >
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="layui-form-item">
+            <label class="layui-form-label">最大价格</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="max_price" placeholder="-1表示不限制" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">最小交易额</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="min_money" placeholder="-1表示不限制" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">最大交易额</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="max_money" placeholder="-1表示不限制" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">交易时间</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="trade_time" placeholder="00:00-24:00" >
+            </div>
+        </div>
+    </div>
+</form>

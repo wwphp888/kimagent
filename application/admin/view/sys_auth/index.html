@@ -1,0 +1,54 @@
+{layout name="/common"/}
+
+<div class="operate-section">
+    <a class="btn btn-sm btn-primary" onclick="dialog('/admin/sysAuth/create', '添加权限', 600);">添加</a>
+    <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+</div>
+
+<table id="table" lay-filter="table"></table>
+
+<!--操作-->
+<script type="text/html" id="tableBar">
+    <a class="btn btn-xs btn-primary" lay-event="edit">编辑</a>
+    <a class="btn btn-xs btn-danger" lay-event="del">删除</a>
+</script>
+
+<script>
+    table.render({
+        elem: '#table',
+        url : '/admin/sysAuth',
+        id: 'tableins',
+        cellMinWidth : 95,
+        limit : 20,
+        limits : [10,20,30,50],
+        cols : [[
+            {type: "checkbox", fixed:"left"},
+            {field: 'title', title: '名称'},
+            {field: 'url', title: 'url'},
+            {field: 'icon', title: 'icon'},
+            {field: 'sort', title: '排序'},
+            {field: 'status', title: '状态'},
+            {title: '操作', align:'center', templet: '#tableBar'},
+        ]]
+    });
+
+    //列表操作
+    table.on('tool(table)', function(obj){
+        var event = obj.event,
+            data = obj.data;
+
+        if (event === 'edit') { //编辑
+            dialog('/admin/sysAuth/update?id=' + data.id, '修改权限', 600);
+        } else if (event === 'del') { //删除
+            layer.confirm('确定删除？', {icon:3}, function(index) {
+                $.post("/admin/sysAuth/delete", {id : data.id }, function(data) {
+                    if (data.code == 0) {
+                        table.reload('tableins');
+                        layer.close(index);
+                    }
+                    layer.msg(data.msg);
+                })
+            });
+        }
+    });
+</script>

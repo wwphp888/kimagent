@@ -1,0 +1,50 @@
+<form action="/admin/contract.index/risk" class="dialog">
+    <a class="btn btn-sm btn-info" onclick="add()">添加</a>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>最小净持仓数量</th>
+            <th>最大净持仓数量</th>
+            <th>保证金率1级预警阀值</th>
+            <th>保证金率2级预警阀值</th>
+            <th>维持保证金率</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="row">
+        {foreach $data as $k => $v}
+        <tr>
+            <td><input type="number" name="data[{$k}][min_hold]" class="layui-input" value="{$v.min_hold}"></td>
+            <td><input type="number" name="data[{$k}][max_hold]" class="layui-input" value="{$v.max_hold}"></td>
+            <td><input type="number" name="data[{$k}][warning1]" class="layui-input" value="{$v.warning1}"></td>
+            <td><input type="number" name="data[{$k}][warning2]" class="layui-input" value="{$v.warning2}"></td>
+            <td><input type="number" name="data[{$k}][keep_doposit_rate]" class="layui-input" value="{$v.keep_doposit_rate}"></td>
+            <td><a class="btn btn-sm btn-danger" onclick="del(this)">删除</a></td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+    <input type="hidden" name="c_id" value="{$c_id}">
+</form>
+
+<script>
+    var i = {$i};
+    function add() {
+        i++;
+        var html = '<tr>\n' +
+            '            <td><input type="number" name="data['+i+'][min_hold]" class="layui-input"></td>\n' +
+            '            <td><input type="number" name="data['+i+'][max_hold]" class="layui-input"></td>\n' +
+            '            <td><input type="number" name="data['+i+'][warning1]" class="layui-input"></td>\n' +
+            '            <td><input type="number" name="data['+i+'][warning2]" class="layui-input"></td>\n' +
+            '            <td><input type="number" name="data['+i+'][keep_doposit_rate]" class="layui-input"></td>\n' +
+            '            <td><a class="btn btn-sm btn-danger" onclick="del(this)">删除</a></td>\n' +
+            '        </tr>';
+
+        $('#row').append(html);
+    }
+
+    function del(obj) {
+        $(obj).closest('tr').remove();
+    }
+</script>

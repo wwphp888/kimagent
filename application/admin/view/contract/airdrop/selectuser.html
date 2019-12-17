@@ -1,0 +1,95 @@
+{layout name="/common"}
+<form class="layui-form">
+<div class="operate-section">
+
+        <div class="layui-inline">
+            <label class="layui-form-label">会员信息</label>
+            <div class="layui-input-inline" style="width:198px">
+                <input class="layui-input layui-input" name="keyword">
+            </div>
+            <button class="btn btn-sm btn-primary" lay-submit lay-filter="searchUser">搜索</button>
+        </div>
+</div>
+<div class="operate-section">
+        <div class="layui-inline">
+            <label class="layui-form-label">账号类型</label>
+            <div class="layui-input-inline">
+                <select name="c_id">
+                    {foreach $contracts as $k => $v}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">空投类型</label>
+            <div class="layui-input-inline">
+                <select name="type">
+                    <option value="1">系统糖果</option>
+                    <option value="2">活动奖励</option>
+                </select>
+            </div>
+        </div>
+</div>
+<div class="operate-section">
+        <div class="layui-inline">
+            <label class="layui-form-label">空投数量</label>
+            <div class="layui-input-inline" style="width:198px">
+                <input class="layui-input layui-input" name="amount">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-inline" style="width:198px">
+                <input class="layui-input layui-input" name="note">
+            </div>
+            <a class="btn btn-sm btn-primary" lay-submit lay-filter="airdrop">空投</a>
+        </div>
+</div>
+</form>
+<table id="selectUser"></table>
+
+<script>
+    form.render();
+    table.render({
+        elem: '#selectUser',
+        url : '/admin/contract.airdrop/selectUser',
+        id : 'selectUserTable',
+        height : 450,
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        cols : [[
+            {field: 'fId', title: '用户ID', align:'center'},
+            {field: 'floginName', title: '用户账号', align:'center'},
+            {field: 'fRealName', title: '真实姓名', align:'center'},
+            {field: 'fNickName', title: '昵称', align:'center'},
+            {field: 'fTelephone', title: '手机', align:'center'},
+            {field: 'fEmail', title: '邮箱', align:'center'}
+        ]]
+    });
+
+    //搜索
+    form.on('submit(searchUser)', function(data) {
+        table.reload('selectUserTable', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+
+    //搜索
+    form.on('submit(airdrop)', function(data) {
+        $.post('/admin/contract.airdrop/run', data.field, function(ret) {
+            if (ret.code == 0) {
+                success(ret.msg);
+            } else {
+                error(ret.msg);
+            }
+        })
+        return false;
+    })
+
+</script>

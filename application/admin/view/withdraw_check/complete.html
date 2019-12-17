@@ -1,0 +1,49 @@
+<form action="/admin/withdrawCheck/complete" class="layui-form dialog">
+    <div class="layui-form-item">
+        <label class="layui-form-label">交易号</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name="ftradeUniqueNumber" value="">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员登陆名</label>
+        <div class="layui-input-block">
+            <input type="fPassword" class="layui-input" disabled value="{$row.floginName}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">虚拟币类型</label>
+        <div class="layui-input-block">
+            <select disabled>
+                <option>全部</option>
+                {foreach $coins as $k => $v}
+                <option value="{$k}" {if $row.fVi_fId2 == $k}selected{/if}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">提现数量</label>
+        <div class="layui-input-block">
+            <input class="layui-input" disabled value="{$row.fAmount}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">提现手续费</label>
+        <div class="layui-input-block">
+            <input class="layui-input" disabled value="{$row.ffees}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">提现地址</label>
+        <div class="layui-input-block">
+            <input class="layui-input" disabled value="{$row.withdraw_virtual_address}">
+        </div>
+    </div>
+    <input type="hidden" name="fId" value="{$row.fId}">
+</form>

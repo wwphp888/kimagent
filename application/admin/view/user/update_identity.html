@@ -1,0 +1,29 @@
+<form action="/admin/user/updateIdentity" class="layui-form dialog">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员真实姓名</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name="fRealName" value="{$fRealName}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">证件类型</label>
+        <div class="layui-input-block">
+            <select name="fidentityType" disabled>
+                <option value="0" {/if $fidentityType==0}selected{/if}>身份证</option>
+                <option value="1" {/if $fidentityType==1}selected{/if}>军官证</option>
+                <option value="2" {/if $fidentityType==2}selected{/if}>护照</option>
+                <option value="3" {/if $fidentityType==3}selected{/if}>台湾居民通行证</option>
+                <option value="4" {/if $fidentityType==4}selected{/if}>港澳居民通行证</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">证件号码</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name="fIdentityNo" value="{$fIdentityNo}">
+        </div>
+    </div>
+    <input type="hidden" name="fId" value="{$fId}">
+</form>

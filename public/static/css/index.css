@@ -1,0 +1,9 @@
+#content-main {
+	height: calc(100% - 40px);
+	overflow: hidden;
+}
+.nav>li>a {
+	color: #a7b1c2;
+	font-weight: 400;
+}
+form.well {margin-bottom: 0}

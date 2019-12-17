@@ -1,0 +1,225 @@
+<form action="/admin/contract.index/create" class="layui-form dialog">
+    <div class="layui-form-item">
+        <label class="layui-form-label">合约中文名称</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=contract[c_name_cn]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">合约英文名称</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=contract[c_nmae_en]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">合约指数</label>
+        <div class="layui-input-block">
+            <select name="contract[mark_type]" lay-search>
+                {foreach $markType as $k => $v}
+                <option value="{$k}">{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">计价币</label>
+        <div class="layui-input-block">
+            <select name="contract[coin_id]" lay-search>
+                {foreach $coins as $k => $v}
+                <option value="{$k}">{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">合约乘数</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=contract[contract_mul]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">合约类型</label>
+        <div class="layui-input-block">
+            <select name="contract[contract_cate]" lay-search>
+                <option value="1">永续</option>
+                <option value="2">交割</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">开盘价</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=contract[open_price]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格精度</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[price_decimal]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">数量精度</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[amount_decimal]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小价格变动</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[min_change_price]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">起始时间</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[start_time]" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">持仓费用收取时间</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[settlement_time]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">保证金类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="market[deposit_type]" value="1" title="百分比" checked lay-filter="deposit_type">
+            <input type="radio" name="market[deposit_type]" value="2" title="固定" lay-filter="deposit_type" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item deposit_type_1">
+        <label class="layui-form-label">保证金比率</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[deposit_rate]">
+        </div>
+    </div>
+
+    <div class="layui-form-item deposit_type_2" style="display: none">
+        <label class="layui-form-label">保证金金额</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[deposit]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">开仓类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="market[open_type]" value="1" title="全仓" checked>
+            <input type="radio" name="market[open_type]" value="2" title="逐仓">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">单次下单委托数量</label>
+            <div class="layui-input-inline" >
+                <input type="text" name="market[min_count]" class="layui-input">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline">
+                <input type="text" name="market[max_count]" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手续费类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="market[fee_type]" value="1" title="百分比" checked lay-filter="fee_type">
+            <input type="radio" name="market[fee_type]" value="2" title="固定" lay-filter="fee_type">
+        </div>
+    </div>
+
+    <div class="layui-form-item fee_type_1">
+        <label class="layui-form-label">持仓费率</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[hold_fee_rate]">
+        </div>
+    </div>
+
+    <div class="layui-form-item fee_type_1">
+        <label class="layui-form-label">开仓手续费率</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[open_fee_rate]">
+        </div>
+    </div>
+
+    <div class="layui-form-item fee_type_1">
+        <label class="layui-form-label">平仓手续费率</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[close_fee_rate]">
+        </div>
+    </div>
+
+    <div class="layui-form-item fee_type_2" style="display: none">
+        <label class="layui-form-label">持仓费</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[hold_fee]">
+        </div>
+    </div>
+
+    <div class="layui-form-item fee_type_2" style="display: none">
+        <label class="layui-form-label">开仓手续费</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[open_fee]">
+        </div>
+    </div>
+
+    <div class="layui-form-item fee_type_2" style="display: none">
+        <label class="layui-form-label">平仓手续费</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[close_fee]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">委托单价格偏差</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[entrust_price_range]">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">交易时间</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name=market[trade_time]">
+        </div>
+    </div>
+
+</form>
+
+<script>
+    form.on('radio(deposit_type)', function(data){
+        if (data.value == 1) {
+            $('#deposit_type_1').show();
+            $('#deposit_type_2').hide();
+        } else {
+            $('#deposit_type_1').hide();
+            $('#deposit_type_2').show();
+        }
+    });
+    form.on('radio(fee_type)', function(data){
+        if (data.value == 1) {
+            $('#fee_type_1').show();
+            $('#fee_type_2').hide();
+        } else {
+            $('#fee_type_1').hide();
+            $('#fee_type_2').show();
+        }
+    });
+</script>

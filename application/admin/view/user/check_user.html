@@ -1,0 +1,94 @@
+<form action="/admin/user/checkUser" class="layui-form dialog">
+    <div class="layui-form-item">
+        <label class="layui-form-label">审核结果</label>
+        <div class="layui-input-block">
+            <select name="fIdentityStatus" lay-filter="fIdentityStatus" value="{$fIdentityStatus}">
+                <option value="2" {if $fIdentityStatus == 2}{/if}>通过</option>
+                <option value="3" {if $fIdentityStatus == 3}{/if}>不通过</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">通知消息语言</label>
+        <div class="layui-input-block">
+            <select name="notice_lang" lay-search>
+                <option value="0" {if $fStatus == 2}{/if}>汉语</option>
+                <option value="1" {if $fStatus == 2}{/if}>英语</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="check_reason" style="display:none">
+        <label class="layui-form-label">不通过理由</label>
+        <div class="layui-input-block">
+            <select name="fail_reason">
+                <option value="0">请选择</option>
+                <option value="1">身份证信息是倒退的，请重新上传。</option>
+                <option value="2">请手持身份证。</option>
+                <option value="3">您的证书过期了。</option>
+                <option value="4">身份证信息模糊不清，您可以使用更好的设备。</option>
+                <option value="5">请不要阻塞识别信息。</option>
+                <option value="6">试着让你的身份证靠近照相机，露出你的脸。</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">真实姓名</label>
+        <div class="layui-input-block">
+            <input class="layui-input" disabled value="{$fRealName}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">证件类型</label>
+        <div class="layui-input-block">
+            <select name="fidentityType" disabled>
+                <option value="0" {if $fidentityType == 0}{/if}>身份证</option>
+                <option value="1" {if $fidentityType == 1}{/if}>军官证</option>
+                <option value="2" {if $fidentityType == 2}{/if}>护照</option>
+                <option value="3" {if $fidentityType == 3}{/if}>台湾居民通行证</option>
+                <option value="4" {if $fidentityType == 4}{/if}>港澳居民通行证</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">证件号码</label>
+        <div class="layui-input-block">
+            <input class="layui-input" disabled value="{$fIdentityNo}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">扫描件正面：</label>
+        <div class="layui-input-block">
+            <img src="{$fIdentityPath}" width="300" height="200">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">扫描件反面：</label>
+        <div class="layui-input-block">
+            <img src="{$fIdentityPath2}" width="300" height="200">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手持证件照片：</label>
+        <div class="layui-input-block">
+            <img src="{$fIdentityPath3}" width="300" height="200">
+        </div>
+    </div>
+    <input type="hidden" name="fId" value="{$fId}">
+</form>
+<script>
+   form.on('select(fIdentityStatus)', function(data){
+       if (data.value == 3) {
+           $('#check_reason').show();
+       } else {
+           $('#check_reason').hide();
+       }
+   });
+</script>

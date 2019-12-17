@@ -1,0 +1,127 @@
+{layout name="/common"}
+<div class="operate-section">
+    <a class="btn btn-sm btn-primary" onclick="create()">新增</a>
+    <a class="btn btn-sm btn-primary" onclick="update()">修改</a>
+    <a class="btn btn-sm btn-primary" onclick="updateDoposit()">修改保证金</a>
+    <a class="btn btn-sm btn-primary" onclick="risk()">风控配置</a>
+    <a class="btn btn-sm btn-warning" onclick="handleStatus(1, 1)">上架</a>
+    <a class="btn btn-sm btn-warning" onclick="handleStatus(0, 1)">下架</a>
+    <a class="btn btn-sm btn-danger" onclick="handleStatus(1, 2)">启动交易</a>
+    <a class="btn btn-sm btn-danger" onclick="handleStatus(0, 2)">暂停交易</a>
+    <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+</div>
+
+<table id="table" lay-filter="table"></table>
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/contract.index',
+        id: 'tableins',
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        height : "full-90",
+        cols : [[
+            {type: "radio", fixed:"left"},
+            {field: 'c_id', title: 'ID', width: 100},
+            {field: 'c_name_cn', title: '合约中文名称', width: 100},
+            {field: 'c_nmae_en', title: '合约英文名称', width: 100},
+            {field: 'mark_type', title: '指数类型', width: 100},
+            {field: 'coin', title: '计价币', width: 100},
+            {field: 'contract_mul', title: '合约乘数', width: 100},
+            {field: 'contract_cate', title: '合约类型', width: 100, templet:function(d){
+                if (d.contract_cate == 1) return '永续';
+                else if (d.contract_cate == 2) return '交割';
+                else return '';
+            }},
+            {field: 'price_decimal', title: '价格精度', width: 100},
+            {field: 'amount_decimal', title: '数量精度', width: 100},
+            {field: 'min_change_price', title: '最小价格变动', width: 100},
+            {field: 'start_time', title: '起始时间', width: 200},
+            {field: 'settlement_time', title: '持仓费用收取时间', width: 200},
+            {field: 'deposit_rate', title: '保证金比率', width: 200},
+            {field: 'deposit', title: '保证金金额', width: 200},
+            {field: 'open_type', title: '开仓类型', width: 100, templet:function(d){
+                if (d.open_type == 1) return '全仓';
+                else if (d.open_type == 2) return '逐仓';
+                else return '';
+            }},
+            {title: '单次下单委托数量', width: 300, templet:function(d){
+                return d.min_count.toString() + '-' + d.max_count.toString();
+            }},
+            {field: 'entrust_price_range', title: '委托偏差', width: 100},
+            {field: 'trade_time', title: '交易时间', width: 200},
+            {field: 'hold_fee_rate', title: '持仓费率', width: 200},
+            {field: 'open_fee_rate', title: '开仓费率', width: 200},
+            {field: 'close_fee_rate', title: '平仓费率', width: 200},
+            {field: 'status', title: '启用状态', width: 100, fixed: 'right', templet:function(d){
+                if (d.status == 1) return '上架';
+                else if (d.status == 0) return '下架';
+                else return '';
+            }},
+            {field: 'trade_status', title: '交易状态', width: 100, fixed: 'right', templet:function(d){
+                    if (d.trade_status == 1) return '启动交易';
+                    else if (d.trade_status == 0) return '禁止交易';
+                    else return '';
+                }}
+        ]]
+    });
+
+    //创建
+    function create () {
+        dialog('/admin/contract.index/create', '新增合约', 700, 600);
+    }
+
+    //修改
+    function update () {
+        var data = table.checkStatus('tableins').data;
+        if (data.length < 1) {
+            error("请选择数据");
+            return;
+        }
+        dialog('/admin/contract.index/update?c_id=' + data[0]['c_id'], '修改合约', 700, 600);
+    }
+
+    //修改保证金
+    function updateDoposit () {
+        var data = table.checkStatus('tableins').data;
+        if (data.length < 1) {
+            error("请选择数据");
+            return;
+        }
+        dialog('/admin/contract.index/updateDoposit?c_id=' + data[0]['c_id'], '修改保证金', 700);
+    }
+
+    //风控配置
+    function risk () {
+        var data = table.checkStatus('tableins').data;
+        if (data.length < 1) {
+            error("请选择数据");
+            return;
+        }
+        dialog('/admin/contract.index/risk?c_id=' + data[0]['c_id'], '风控配置', 1000);
+    }
+
+    //改变状态
+    function handleStatus (status, type) {
+        var data = table.checkStatus('tableins').data;
+        if (data.length < 1) {
+            error("请选择数据");
+            return;
+        }
+        var c_id = data[0]['c_id'];
+        layer.confirm('确定执行该操作？', {icon: 3, title: '提示信息'}, function (index) {
+            $.post("/admin/contract.index/handleStatus",{ c_id, status, type }, function(ret) {
+                if (ret.code == 0) {
+                    table.reload('tableins');
+                    success(ret.msg);
+                    layer.close(index);
+                } else {
+                    error(ret.msg);
+                }
+            })
+        })
+    }
+</script>

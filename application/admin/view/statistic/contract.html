@@ -1,0 +1,30 @@
+{layout name="/common"}
+<div class="operate-section">
+    <a class="btn btn-sm btn-info export-excel">导出</a>
+    <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+</div>
+
+<table id="table" lay-filter="table"></table>
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/statistic/contract',
+        id: 'tableins',
+        limit : 20,
+        limits : [10,20,30,50],
+        cols : [[
+            {field: 'contract_name', title: '合约名称'},
+            {field: 'contract_cate', title: '合约类型', templet:function(d){
+                if (d.contract_cate == 1) return '永续';
+                else if (d.contract_cate == 2) return '交割';
+                else return '';
+            }},
+            {field: 'multi_p', title: '合约多仓'},
+            {field: 'short_p', title: '合约空仓'},
+            {field: 'multi_p_avg_price', title: '合约多仓均价'},
+            {field: 'short_p_avg_price', title: '合约空仓均价'},
+            {field: 'gains_loss', title: '持仓费'}
+        ]]
+    });
+</script>

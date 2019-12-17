@@ -1,0 +1,49 @@
+<form action="/admin/sysRole/create" class="layui-form dialog">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="fname" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <input type="text" name="fdescription" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限</label>
+        <div class="layui-input-block">
+            <div id="tree"></div>
+            <input type="hidden" name="access" id="access">
+        </div>
+    </div>
+
+</form>
+<script>
+    var authTree = {:json_encode($authTree)};
+
+    //渲染
+    var treeObj = tree.render({
+        elem: '#tree' ,
+        showCheckbox: true,
+        data: authTree,
+        oncheck: function(obj){
+            var ids = getCheckIds(treeObj.getChecked());
+            $('#access').val(ids);
+        }
+    });
+
+    //得到选中的id
+    function getCheckIds (data, ids = []) {
+        for (var i = 0; i < data.length; i++) {
+            ids.push(data[i].id)
+            if (data[i].children) {
+                getCheckIds(data[i].children, ids);
+            }
+        }
+        return ids;
+    }
+</script>

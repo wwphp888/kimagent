@@ -1,0 +1,32 @@
+<form class="dialog">
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>币种</th>
+            <th>提现手续费</th>
+            <th>交易手续费</th>
+            <th>交易返佣</th>
+            <th>空投</th>
+            <th>资金调整</th>
+            <th>持仓费</th>
+            <th>强平系统亏损</th>
+            <th>系统盈亏</th>
+        </tr>
+        </thead>
+        <tbody id="row">
+        {foreach $data as $k => $v}
+        <tr>
+            <td>{$v.coin_name}</td>
+            <td>{$v.withdraw_fees}</td>
+            <td>{$v.market_fees}</td>
+            <td>{$v.market_commission}</td>
+            <td>{$v.airdrop}</td>
+            <td>{$v.amount_change}</td>
+            <td>{$v.p_fees}</td>
+            <td>{$v.close_p_loss}</td>
+            <td>{$v.gains_or_loss}</td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+</form>

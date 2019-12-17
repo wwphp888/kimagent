@@ -1,0 +1,140 @@
+{layout name="/common"}
+<div class="operate-section">
+    <form class="layui-form row">
+        <div class="col-sm-4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">关键词</label>
+                <div class="layui-input-block">
+                    <input class="layui-input layui-input" name="keyword" placeholder="用户账号/用户ID/归属节点"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">持仓方向：</label>
+                <div class="layui-input-block">
+                    <select name="p_type">
+                        <option value="">全部</option>
+                        <option value="0">做多</option>
+                        <option value="1">做空</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">账户类型：</label>
+                <div class="layui-input-block">
+                    <select name="c_id">
+                        <option value="">全部</option>
+                        {foreach $contracts as $k => $v}
+                        <option value="{$k}">{$v}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <button class="btn btn-sm btn-primary" lay-submit lay-filter="search">搜索</button>
+                    <button class="btn btn-sm btn-white" type="reset">重置</button>
+                    <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+                    <a class="btn btn-sm btn-info export-excel">导出</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">开始时间：</label>
+                <div class="layui-input-block">
+                    <input class="layui-input layui-date" name="add_time[]"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">结束时间：</label>
+                <div class="layui-input-block">
+                    <input class="layui-input layui-date" name="add_time[]"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table id="table" lay-filter="table"></table>
+
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/contract.wallet',
+        id: 'tableins',
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        height : "full-150",
+        cols : [[
+            {title: "操作", width: 150, templet:function(d){
+                return '<a class="btn btn-xs btn-info" style="margin-right:10px" onclick="transfer('+d.id+','+d.contract_id+')">划转</a>' +
+                    '<a class="btn btn-xs btn-info" onclick="assetChange('+d.id+')">资金调整</a>';
+            }},
+            {field: 'id', title: 'ID', width: 100},
+            {field: 'floginName', title: '用户账号', width: 200},
+            {field: 'f_uid', title: '用户ID', width: 100},
+            {field: 'user_node', title: '归属节点', width: 100},
+            {field: 'user_type', title: '用户类型', width: 100, templet:function(d){
+                if (d.user_type == 0) return '普通用户1';
+                else if (d.user_type == 1) return '一级节点商';
+                else if (d.user_type == 2) return '管理员';
+                else if (d.user_type == 3) return '二级节点';
+                else return '';
+            }},
+            {field: 'c_name_cn', title: '账户类型', width: 100},
+            {field: 'account_interest', title: '账户权益', width: 200},
+            {field: 'unrealized_profit_loss', title: '浮动盈亏', width: 200},
+            {field: 'f_available', title: '可用保证金', width: 150},
+            {field: 'f_position', title: '持仓保证金', width: 150},
+            {field: 'f_freeze', title: '冻结保证金', width: 150},
+            {field: 'strong_parity_estimates', title: '预计强平价', width: 150},
+            {field: 'margin_rate', title: '保证金率', width: 150},
+            {field: 'margin_rate', title: '维持保证金率', width: 150},
+            {field: 'profit_loss_realized', title: '已实现盈亏', width: 150},
+            {field: 'turn_in', title: '划入', width: 200},
+            {field: 'turn_out', title: '划出', width: 150},
+            {field: 'p_type', title: '净持仓方向', width: 100, templet:function(d){
+                if (d.p_type == 0) return '做多';
+                else if (d.p_type == 1) return '做空';
+                else return '';
+            }}
+        ]]
+    });
+
+    //创建
+    function transfer (id, c_id) {
+        dialog('/admin/contract.wallet/transfer?id=' + id + '&c_id=' + c_id, '资金划转', 600, 400);
+    }
+
+    //创建
+    function assetChange (id) {
+        dialog('/admin/contract.wallet/assetchange?id=' + id, '资金调整', 600);
+    }
+
+    lay('.layui-date').each(function(){
+        laydate.render({
+            elem: this,
+            trigger: 'click',
+            type: 'datetime'
+        });
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+</script>

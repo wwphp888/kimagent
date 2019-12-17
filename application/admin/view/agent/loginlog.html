@@ -1,0 +1,53 @@
+{layout name="/common"}
+<div class="operate-section">
+    <form class="layui-form">
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <input class="layui-input layui-input" name="keyword" placeholder="会员登录名" />
+            </div>
+            <button class="btn btn-sm btn-primary" lay-submit lay-filter="search">搜索</button>
+            <button class="btn btn-sm btn-white" type="reset">重置</button>
+            <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+        </div>
+    </form>
+</div>
+
+<table id="table" lay-filter="table"></table>
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/user/loginlog',
+        id: 'tableins',
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        height : "full-95",
+        cols : [[
+            {type: "checkbox", fixed:"left"},
+            {field: 'fkey1', title: '会员UID'},
+            {field: 'fkey2', title: '会员登录名'},
+            {field: 'fkey3', title: 'ip'},
+            {field: 'fType', title: '操作类型', templet:function(d){
+                    if (d.fType == 1) {
+                        return '会员登陆';
+                    } else if (d.fType == 2) {
+                        return '';
+                    }
+                }},
+            {field: 'fCreateTime', title: '创建日期'}
+        ]]
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+</script>

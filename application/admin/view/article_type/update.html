@@ -1,0 +1,24 @@
+<form action="/admin/articleType/update" class="layui-form dialog">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name="fName" value="{$fName}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">关键词</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name="fKeywords" value="{$fKeywords}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name="fDescription" value="{$fDescription}">
+        </div>
+    </div>
+
+    <input type="hidden" name="fId" value="{$fId}">
+</form>

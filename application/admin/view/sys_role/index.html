@@ -1,0 +1,54 @@
+{layout name="/common"}
+
+<div class="operate-section">
+    <a class="btn btn-sm btn-primary" onclick="dialog('/admin/sysRole/create', '添加角色', 600)">添加</a>
+    <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+</div>
+
+<table id="roleTable" lay-filter="roleTable"></table>
+
+<!--操作-->
+<script type="text/html" id="roleTableBar">
+    <a class="btn btn-xs btn-primary" lay-event="edit">编辑</a>
+    <a class="btn btn-xs btn-danger" lay-event="del">删除</a>
+</script>
+
+<script>
+    table.render({
+        elem: '#roleTable',
+        url : '/admin/sysRole',
+        cellMinWidth : 95,
+        limit : 20,
+        id: 'tableins',
+        limits : [10,20,30,50],
+        cols : [[
+            {type: "checkbox", fixed:"left"},
+            {field: 'fid', title: 'ID', align:"center"},
+            {field: 'fname', title: '名称'},
+            {field: 'fdescription', title: '描述'},
+            {title: '操作', align:'center', templet: '#roleTableBar'},
+        ]]
+    });
+
+    //列表操作
+    table.on('tool(roleTable)', function(obj){
+        var event = obj.event,
+            data = obj.data;
+
+        if (event === 'edit') { //编辑
+            dialog('/admin/sysRole/update?id=' + data.fid, '修改角色', 600)
+        } else if (event === 'del') { //删除
+            layer.confirm('确定删除？', { icon:3 }, function(index) {
+                $.post("/admin/sysRole/delete", {id : data.fid }, function(ret) {
+                    if (ret.code == 0) {
+                        success(ret.msg);
+                        table.reload('tableins');
+                        layer.close(index);
+                    } else {
+                        error(ret.msg);
+                    }
+                })
+            });
+        }
+    });
+</script>

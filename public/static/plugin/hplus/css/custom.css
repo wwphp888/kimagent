@@ -1,0 +1,280 @@
+/******************************************公共样式************************************************/
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #f3f3f4;
+    font-size: 14px;
+}
+li {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #303133;
+}
+a:hover, a:focus, a:active, a i {
+    color: #409EFF;
+}
+
+/*搜索工具栏*/
+.top-toolbar {
+    padding: 10px 0 5px 0;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.top-toolbar .el-input {
+    width: auto;
+}
+.top-toolbar .el-input {
+    margin-right: 5px;
+}
+.table-status .el-tabs__header {
+    margin: 0;
+}
+
+/*注释*/
+.help-block {
+    color: #737373;
+    font-size: 12px;
+}
+
+/*重新定义loading*/
+.el-loading-mask {
+    z-index: 99999999999999;
+}
+
+/***---------el-form-----------**/
+.form-inline {
+    display: flex;
+}
+.form-inline .el-form{
+    margin-right: 20px;
+}
+.form-inline .el-input{
+    width: auto;
+}
+
+/***---------el-card-----------**/
+.el-card {
+    margin-bottom: 20px;
+}
+.el-card__header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.el-card__body {
+    padding: 10px 20px;
+}
+
+/***---------右侧导航----------**/
+.right-block {
+    position: fixed;
+}
+.right-nav {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.right-nav a {
+    display: block;
+    padding: 10px 20px;
+    border-left: 2px solid #e6e6e6;
+}
+.right-nav a:hover {
+    color: #409EFF;
+}
+.right-nav a.active {
+    color: #409EFF;
+    border-left: 2px solid #409EFF;
+}
+
+/***---------我的上传-----------**/
+.el-upload--picture-card {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+}
+.el-upload-list--picture-card .el-upload-list__item {
+    width: 80px;
+    height: 80px;
+}
+
+.my-upload {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    outline: 0;
+    background-color: #fbfdff;
+    border: 1px dashed #c0ccda;
+    border-radius: 6px;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    position: relative;
+    vertical-align: top;
+}
+.my-upload i {
+    font-size: 28px;
+    color: #8c939d;
+}
+.my-upload input {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+/*重新定义el-message*/
+.el-message {
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+/*表格右边操作工具*/
+.table-toolbar a {
+    font-size: 14px;
+    color: #409EFF;
+}
+.table-toolbar a:after {
+    content: '-';
+    color: #999;
+    margin-left: 3px;
+}
+.table-toolbar a:last-child:after {
+    content: '';
+}
+
+/*底部工具*/
+.bottom-toolbar {
+    padding: 10px 0;
+    text-align: right;
+}
+
+/*table-grid*/
+.ms-tree-space {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    width: 18px;
+    height: 14px;
+}
+.ms-tree-space::before {
+    content: ""
+}
+.tree-ctrl {
+    position: relative;
+    cursor: pointer;
+    color: #2196F3;
+    margin-left: -18px;
+}
+
+/*弹出层*/
+.el-dialog {
+    /*margin: 0 !important;*/
+    border-radius: 6px;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+}
+
+.el-dialog__header {
+    padding: 8px 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.el-dialog__title {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.el-dialog__headerbtn {
+    top: 13px;
+}
+
+.el-dialog__footer {
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+    padding: 6px 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/*el-table*/
+.el-table {
+    width: 100%;
+}
+.el-table--mini, .el-table--small, .el-table__expand-icon {
+    font-size: 13px;
+}
+
+/*el-form-item__label*/
+.el-form-item__label {
+    text-align: left;
+}
+
+/*form-part form-whole*/
+.form-part {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-part .el-input {
+    width: 180px;
+}
+
+.form-group {
+    display: flex;
+}
+.form-group .el-form{
+    margin-right: 40px;
+}
+.form-group .el-form:last-child{
+    margin-right: 0;
+}
+.form-group .el-input {
+    width:200px;
+}
+
+/*/树形表格*/
+.tree-table .el-table__row td:first-child .cell {
+    padding-left: 22px;
+}
+.tree-table .el-table__row--level-0 td:first-child .cell {
+    padding-left: 0px;
+}
+
+/******************************************页面样式************************************************/
+.bill-header .el-input__inner {
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #DCDFE6;
+}
+.bill-footer {
+    margin-top: 20px;
+}
+.bill-footer .el-row {
+    display: flex;
+    align-items: flex-end;
+
+}
+.bill-footer .el-input__inner {
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #DCDFE6;
+}
+.el-row {
+    margin-bottom:10px;
+}

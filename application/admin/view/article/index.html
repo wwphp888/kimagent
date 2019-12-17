@@ -1,0 +1,104 @@
+{layout name="/common"/}
+<div class="operate-section">
+    <form class="layui-form">
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <input class="layui-input layui-input" name="keyword" placeholder="标题" />
+            </div>
+            <div class="layui-input-inline">
+                <select name="fArticleType" lay-search>
+                    <option value="">--文章类型--</option>
+                    {foreach $articleTypes as $k => $v}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="isTop" lay-search>
+                    <option value="">--是否置顶--</option>
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <button class="btn btn-sm btn-primary" lay-submit lay-filter="search">搜索</button>
+                <button class="btn btn-sm btn-white" type="reset">重置</button>
+                <a class="btn btn-sm btn-primary" onclick="create()">新增</a>
+                <a class="btn btn-sm btn-danger" onclick="del()">删除</a>
+                <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table id="table" lay-filter="table"></table>
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/article',
+        id: 'tableins',
+        cellMinWidth : 95,
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        height : "full-85",
+        cols : [[
+            {type: "checkbox", fixed:"left"},
+            {title: "操作", templet:function(d){
+                return '<a class="btn btn-xs btn-primary" onclick="update('+d.fId+')">修改</a>';
+            }},
+            {field: 'fId', title: 'ID',},
+            {field: 'fTitle', title: '中文标题', width: 500},
+            {field: 'en_title', title: '英文标题', width: 500},
+            {field: 'articleType', title: '类型', width: 120},
+            {field: 'fCreateDate', title: '创建时间', width: 200},
+            {field: 'fLastModifyDate', title: '更新时间', width: 200},
+            {field: 'f_url_cn', title: '中文banner', width: 500},
+            {field: 'f_url_en', title: '英文banner', width: 500},
+        ]]
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+
+    //创建
+    function create () {
+        dialog('/admin/article/create', '添加文章', 850, 600);
+    }
+
+    //修改
+    function update (fId) {
+        dialog('/admin/article/update?fId=' + fId, '修改文章', 850, 600);
+    }
+
+    //删除
+    function del () {
+        var checkData = table.checkStatus('tableins').data;
+        if (checkData.length < 1) {
+            error("请选择数据");
+            return;
+        }
+        var fId = checkData.column('fId').join(',');
+        layer.confirm('确定删除？', {icon: 3, title: '提示信息'}, function (index) {
+            $.post("/admin/article/delete",{ fId }, function(ret) {
+                if (ret.code == 0) {
+                    table.reload('tableins');
+                    success(ret.msg);
+                    layer.close(index);
+                } else {
+                    error(ret.msg);
+                }
+            })
+        })
+    }
+</script>

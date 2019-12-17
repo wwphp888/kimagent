@@ -1,0 +1,84 @@
+{layout name="/common"}
+<div class="operate-section">
+    <form class="layui-form">
+        <div class="layui-inline">
+            <label class="layui-form-label">账户类型</label>
+            <div class="layui-input-inline">
+                <select name="c_id">
+                    <option value="">全部</option>
+                    {foreach $contracts as $k => $v}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="statistic_time[]" class="layui-input layui-date">
+            </div>
+            <div class="layui-input-inline">-</div>
+            <div class="layui-input-inline" >
+                <input type="text" name="statistic_time[]" class="layui-input layui-date">
+            </div>
+            <div class="layui-input-inline">
+                <button class="btn btn-sm btn-primary" lay-submit lay-filter="search">搜索</button>
+                <button class="btn btn-sm btn-white" type="reset">重置</button>
+                <a class="btn btn-sm btn-info export-excel">导出</a>
+                <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<table id="table" lay-filter="table"></table>
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/statistic/contractporderlog',
+        id: 'tableins',
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        height : "full-85",
+        cols : [[
+            {field: 'statistic_time', title: '统计日期', width: 200},
+            {field: 'contract_name', title: '合约名称', width: 100},
+            {field: 'contract_cate', title: '合约类型', width: 100, templet:function(d){
+                if (d.contract_cate == 1) return '永续';
+                else if (d.contract_cate == 2) return '交割';
+                else return '';
+            }},
+            {field: 'total_num', title: '当日持仓总数', width: 200},
+            {field: 'total_margin', title: '仓位保证金', width: 300},
+            {field: 'total_amount', title: '仓位价值', width: 300},
+            {field: 'gains_users', title: '盈利用户数', width: 300},
+            {field: 'loss_users', title: '亏损用户数', width: 300},
+            {field: 'multi_p_users', title: '多仓用户数', width: 300},
+            {field: 'short_p_users', title: '空仓用户数', width: 300},
+            {field: 'p_avg_price', title: '持仓均价', width: 300},
+        ]]
+    });
+
+    lay('.layui-date').each(function(){
+        laydate.render({
+            elem: this,
+            trigger: 'click',
+            type: 'date'
+        });
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+</script>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>KIM后台</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/static/plugin/hplus/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="/static/plugin/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="/static/plugin/hplus/css/animate.min.css" rel="stylesheet">
+    <link href="/static/plugin/hplus/css/style.min.css?v=4.0.0" rel="stylesheet">
+    <link href="/static/css/index.css" rel="stylesheet">
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-success pull-right">全年</span>
+                    <h5>入金用户数</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{$rechargeUsers}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-info pull-right">全年</span>
+                    <h5>入金金额</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{$rechargeAmount}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-primary pull-right">全年</span>
+                    <h5>交易用户数</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{$tradeUsers}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-danger pull-right">全年</span>
+                    <h5>交易总额</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{$tradeAmount}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="row">-->
+        <!--<div class="col-sm-12">-->
+            <!--<div class="row">-->
+                <!--<div class="col-sm-6">-->
+                    <!--<div class="ibox float-e-margins">-->
+                        <!--<div class="ibox-title">-->
+                            <!--<h5>用户项目列表</h5>-->
+                            <!--<div class="ibox-tools">-->
+                                <!--<a class="collapse-link">-->
+                                    <!--<i class="fa fa-chevron-up"></i>-->
+                                <!--</a>-->
+                                <!--<a class="close-link">-->
+                                    <!--<i class="fa fa-times"></i>-->
+                                <!--</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="ibox-content">-->
+                            <!--<table class="table table-hover no-margins">-->
+                                <!--<thead>-->
+                                <!--<tr>-->
+                                    <!--<th>状态</th>-->
+                                    <!--<th>日期</th>-->
+                                    <!--<th>用户</th>-->
+                                    <!--<th>值</th>-->
+                                <!--</tr>-->
+                                <!--</thead>-->
+                                <!--<tbody>-->
+                                <!--<tr>-->
+                                    <!--<td><small>进行中...</small>-->
+                                    <!--</td>-->
+                                    <!--<td><i class="fa fa-clock-o"></i> 11:20</td>-->
+                                    <!--<td>青衣5858</td>-->
+                                    <!--<td class="text-navy"> <i class="fa fa-level-up"></i> 24%</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><span class="label label-warning">已取消</span>-->
+                                    <!--</td>-->
+                                    <!--<td><i class="fa fa-clock-o"></i> 10:40</td>-->
+                                    <!--<td>徐子崴</td>-->
+                                    <!--<td class="text-navy"> <i class="fa fa-level-up"></i> 66%</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><small>进行中...</small>-->
+                                    <!--</td>-->
+                                    <!--<td><i class="fa fa-clock-o"></i> 01:30</td>-->
+                                    <!--<td>姜岚昕</td>-->
+                                    <!--<td class="text-navy"> <i class="fa fa-level-up"></i> 54%</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><small>进行中...</small>-->
+                                    <!--</td>-->
+                                    <!--<td><i class="fa fa-clock-o"></i> 02:20</td>-->
+                                    <!--<td>武汉大兵哥</td>-->
+                                    <!--<td class="text-navy"> <i class="fa fa-level-up"></i> 12%</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><small>进行中...</small>-->
+                                    <!--</td>-->
+                                    <!--<td><i class="fa fa-clock-o"></i> 09:40</td>-->
+                                    <!--<td>荆莹儿</td>-->
+                                    <!--<td class="text-navy"> <i class="fa fa-level-up"></i> 22%</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><span class="label label-primary">已完成</span>-->
+                                    <!--</td>-->
+                                    <!--<td><i class="fa fa-clock-o"></i> 04:10</td>-->
+                                    <!--<td>栾某某</td>-->
+                                    <!--<td class="text-navy"> <i class="fa fa-level-up"></i> 66%</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><small>进行中...</small>-->
+                                    <!--</td>-->
+                                    <!--<td><i class="fa fa-clock-o"></i> 12:08</td>-->
+                                    <!--<td>范范范二妮</td>-->
+                                    <!--<td class="text-navy"> <i class="fa fa-level-up"></i> 23%</td>-->
+                                <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+<script src="/static/plugin/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="/static/plugin/hplus/js/bootstrap.min.js?v=3.3.5"></script>
+<script src="/static/plugin/hplus/js/jquery.metisMenu.js"></script>
+<script src="/static/plugin/hplus/js/jquery.slimscroll.min.js"></script>
+<script src="/static/plugin/hplus/js/layer/layer.js"></script>
+<script src="/static/plugin/hplus/js/hplus.min.js?v=4.0.0"></script>
+<script src="/static/plugin/hplus/js/contabs.min.js"></script>
+<script src="/static/plugin/hplus/js/pace.min.js"></script>
+<script>
+    $('.editLoginPwd').click(function() {
+        layer.open({
+            type: 1,
+            title: '修改密码',
+            btnAlign: 'c',
+            area: ['300px', ''],
+            btn: ['确定', '取消'],
+            content: $('#editPwdLayer'),
+            yes: function() {
+                $.post("/admin/index/editLoginPwd", { password: $('#password').val() }, function(ret) {
+                    if (ret.code == 0) {
+                        layer.msg(ret.msg);
+                        layer.closeAll();
+                    } else {
+                        layer.msg(ret.msg);
+                    }
+                })
+            }
+        })
+    }) 
+</script>
+</body>
+</html>

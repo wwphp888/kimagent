@@ -1,0 +1,167 @@
+<form action="/admin/article/update" class="layui-form dialog">
+    <div class="layui-form-item">
+        <label class="layui-form-label">中文标题</label>
+        <div class="layui-input-block">
+            <input class="layui-input" name="fTitle" value="{$fTitle}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">英文标题</label>
+        <div class="layui-input-block">
+            <input type="fPassword" class="layui-input" name="en_title" value="{$en_title}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <select name="fArticleType" lay-search>
+                <option value="">全部</option>
+                {foreach $articleTypes as $k => $v}
+                <option value="{$k}" {if $fArticleType == $k}selected{/if}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否置顶</label>
+        <div class="layui-input-block">
+            <input type="radio" name="isTop" value="1" title="是" {if $isTop == 1}checked{/if}>
+            <input type="radio" name="isTop" value="0" title="否" {if $isTop == 0}checked{/if}>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">跳转链接</label>
+        <div class="layui-input-block">
+            <input type="fPassword" class="layui-input" name="jump_link" value="{$jump_link}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机跳转链接</label>
+        <div class="layui-input-block">
+            <input type="fPassword" class="layui-input" name="jump_link_mobile" value="{$jump_link_mobile}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">中文banner图</label>
+        <div class="layui-input-block">
+            <div class="image-box" id="f_url_cn_upload"><img {if $f_url_cn}src="{$f_url_cn_s}"{/if}></div>
+            <input class="layui-input" type="hidden" name="f_url_cn" id="f_url_cn" value="{$f_url_cn}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">英文banner图</label>
+        <div class="layui-input-block">
+            <div class="image-box" id="f_url_en_upload"><img {if $f_url_en}src="{$f_url_en_s}"{/if}></div>
+            <input class="layui-input" type="hidden" name="f_url_en" id="f_url_en" value="{$f_url_en}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机中文banner图</label>
+        <div class="layui-input-block">
+            <div class="image-box" id="f_url_cn_mobile_upload"><img {if $f_url_cn_mobile}src="{$f_url_cn_mobile_s}"{/if}></div>
+            <input class="layui-input" type="hidden" name="f_url_cn_mobile" id="f_url_cn_mobile" value="{$f_url_cn_mobile}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机英文banner图</label>
+        <div class="layui-input-block">
+            <div class="image-box" id="f_url_en_mobile_upload"><img {if $f_url_en_mobile}src="{$f_url_en_mobile_s}"{/if}></div>
+            <input class="layui-input" type="hidden" name="f_url_en_mobile" id="f_url_en_mobile" value="{$f_url_en_mobile}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">中文内容</label>
+        <div class="layui-input-block">
+            <textarea id="fContent" name="fContent" style="width:100%; height:360px;">{$fContent}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">英文内容</label>
+        <div class="layui-input-block">
+            <textarea id="en_content" name="en_content" style="width:100%; height:360px;">{$en_content}</textarea>
+        </div>
+    </div>
+    <input type="hidden" name="fId" value="{$fId}">
+</form>
+<link href="/static/plugin/umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
+<script src="/static/plugin/umeditor/third-party/template.min.js"></script>
+<script src="/static/plugin/umeditor/umeditor.config.js"></script>
+<script src="/static/plugin/umeditor/umeditor.min.js"></script>
+<script src="/static/plugin/umeditor/lang/zh-cn/zh-cn.js"></script>
+<script>
+    UM.getEditor('fContent');
+    UM.getEditor('en_content');
+    upload.render({
+        elem: '#f_url_cn_upload',
+        url: '/admin/index/upload',
+        done: function(res) {
+            if(res.code == 0) {
+                $('#f_url_cn_upload').find('img').attr('src', res.data.url);
+                $('#f_url_cn').val(res.data.path);
+                success(res.msg)
+            } else {
+                error(res.msg);
+            }
+        },
+        error: function() {
+            error('上传出错');
+        }
+    });
+    upload.render({
+        elem: '#f_url_en_upload',
+        url: '/admin/index/upload',
+        done: function(res) {
+            if(res.code == 0) {
+                $('#f_url_en_upload').find('img').attr('src', res.data.url);
+                $('#f_url_en').val(res.data.path);
+                success(res.msg)
+            } else {
+                error(res.msg);
+            }
+        },
+        error: function() {
+            error('上传出错');
+        }
+    });
+
+    upload.render({
+        elem: '#f_url_cn_mobile_upload',
+        url: '/admin/index/upload',
+        done: function(res) {
+            if(res.code == 0) {
+                $('#f_url_cn_mobile_upload').find('img').attr('src', res.data.url);
+                $('#f_url_cn_mobile').val(res.data.path);
+                success(res.msg)
+            } else {
+                error(res.msg);
+            }
+        },
+        error: function() {
+            error('上传出错');
+        }
+    });
+    upload.render({
+        elem: '#f_url_en_mobile_upload',
+        url: '/admin/index/upload',
+        done: function(res) {
+            if(res.code == 0) {
+                $('#f_url_en_mobile_upload').find('img').attr('src', res.data.url);
+                $('#f_url_en_mobile').val(res.data.path);
+                success(res.msg)
+            } else {
+                error(res.msg);
+            }
+        },
+        error: function() {
+            error('上传出错');
+        }
+    });
+</script>

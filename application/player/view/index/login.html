@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        a{
+            text-decoration: none;
+            color:#fff;
+        }
+        html,body,.bg,#main{
+            width: 100%;
+            height: 100%;
+        }
+        
+        .bg{
+            z-index: -1;
+            position: absolute;
+            min-width: 1360px;
+            height: 100%;
+            background: url(/static/img/login_bg.png) no-repeat;
+            background-size: 100% 100%;
+        }
+        #main{
+            position: relative;
+        }
+        #loginbox{
+            position: absolute;
+            width: 631px;
+            height: 530px;
+            top: 310px;
+            right: 220px;
+            background: url(/static/img/border.png) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        #title-cn, #title-en{
+            font-family:Lantinghei SC;
+            font-weight:600;
+            line-height:25px;
+        }
+        #title-cn{
+            width:431px;
+            height:49px;
+            font-size:41px;
+            font-family:Lantinghei SC;
+            font-weight:600;
+            color:rgba(0,191,244,1);
+            line-height:49px;
+            background:linear-gradient(0deg,rgba(0,159,241,1) 0%, rgba(0,232,207,1) 100%);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            position: absolute;
+            top: 169px;
+            right: 420px;
+        }
+        #title-en{
+            width:528px;
+            height:28px;
+            font-size:25px;
+            font-family:Lantinghei SC;
+            font-weight:600;
+            color:rgba(0,191,244,1);
+            line-height:25px;
+            position: absolute;
+            top: 229px;
+            right: 323px;
+        }
+        @media(min-width:1432px) and (max-width: 1630px){
+            #loginbox,#title-cn,#title-en{
+                left: 780px;
+            }
+        }
+        @media(min-width: 1360px) and (max-width: 1432px){
+            #loginbox{
+                right: 20px;
+            }
+            #title-cn{
+                right: 220px;
+            }
+            #title-en{
+                right: 123px;
+            }
+        }
+        @media(max-width: 1360px){
+            #loginbox,#title-cn,#title-en{
+                left: 710px;
+            }
+        }
+        #loginbox .login-title{
+            width:142px;
+            height:26px;
+            font-size:32px;
+            font-family:58;
+            font-weight:lighter;
+            color:rgba(0,191,244,1);
+            line-height:25px;
+            margin: 45px auto;
+            letter-spacing: 3px;
+        }
+        #loginbox .input,#loginbtn{
+            width: 515px;
+            height:56px;
+            border:1px solid rgba(32,163,245,1);
+            background: rgba(32,163,245,0.2);
+            padding:16px 0 0 28px;
+            margin: 35px auto;
+        }
+        #loginbox .account{
+            margin: 35px auto;
+        }
+        #loginbox .input input{
+            background: none;
+            outline:none;  
+            border:none;
+            height: 24px;
+            width: 400px;
+            position: absolute;
+            left: 130px;
+            font-size: 24px;
+            color: #fff;
+        }
+        #loginbox .input input::placeholder{
+            /* placeholder颜色  */
+         color:#fff;
+         /* placeholder字体大小  */
+         font-size:24px;
+         /* placeholder位置  */
+         font-weight: lighter;
+        }
+        #loginbox .select.forget{
+            width: 515px;
+            height:32px;
+            margin: 25px auto;
+            color: #fff;
+            font-size: 24px;
+            letter-spacing: 5px;
+            font-weight:lighter;
+        }
+        #loginbox .select.forget .checkbox{
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border:1px solid rgba(32,163,245,1);
+            transform: translateY(3px);
+            cursor: pointer;
+        }
+        #loginbox .select.forget .forgetPwd{
+            float: right;
+        }
+        #loginbox #loginbtn{
+            background-color: #20A3F5;
+            font-size: 24px;
+            text-align: center;
+            line-height: 20px;
+            color: #fff;
+            cursor: pointer;
+        }
+        #loginbox .code input{
+            width: 250px;
+        }
+        #loginbox .code .splitline{
+            display: inline-block;
+            width: 1px;
+            height: 24px;
+            background-color: #fff;
+            position: absolute;
+            left: 400px;
+        }
+        #loginbox .code .getcode{
+            display: inline-block;
+            position: absolute;
+            left: 430px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 22px;
+            font-weight: lighter;
+            cursor: pointer;
+            width: 110px;
+            height: 22x;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div id="main">
+        <p id="title-cn">KIM后台管理系统</p>
+        <p id="title-en">Kimex back-office management system</p>
+        <p></p>
+        <form id="loginbox">
+            <p class="login-title">用户登录</p>
+            <div class="input account">
+                <img src="/static/img/man.png" alt="">
+                <input type="text" placeholder="请输入用户名" id="username" lay-verify="required">
+            </div>
+            <div class="input password">
+                <img src="/static/img/lock.png" alt="">
+                <input type="password" placeholder="请输入密码" id="password" lay-verify="required">
+            </div>
+            <div class="input code">
+                <img src="/static/img/code.png" alt="">
+                <input type="text" placeholder="请输入验证码" id="code" maxlength="6">
+                <div class="splitline"></div>
+                <div class="getcode">获取验证码</div>
+            </div>
+            <div id="loginbtn" onclick="login()">登录</div>
+        </form>
+    </div>
+    <script src="/static/plugin/hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script>
+        var lock = false;
+		function login () {
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var code = $('#code').val();
+            if (!username) {
+                alert('用户名为空');
+                return;
+            }
+            if (!password) {
+                alert('密码为空');
+                return;
+            }
+            if (!code) {
+                alert('验证码为空');
+                return;
+            }
+            if (!lock) {
+                lock = true;
+                $.post('/player/index/login', {username, password, code}, function(ret) {
+                    lock = false;         
+                    if (ret.code == 0) {
+                        location.href = '/player';
+                    } else {
+                        alert(ret.msg);
+                    }
+                })
+            }
+        }
+
+        $(function(){
+            $('.getcode').click(function(){
+                var time = 60;
+                if ($('.getcode').text() != '获取验证码') {
+                    return
+                } else {
+                    var username = $('#username').val();
+                    var password = $('#password').val();
+                    if (!username || !password) {
+                        alert('用户名或密码为空');
+                        return;
+                    }
+                    var code = $('#code').val();
+                    $.post('/player/index/sendSms', { mobile: username }, function(res) {
+                        if (res.code != 0) {
+                            alert(res.msg)
+                        } 
+                    })
+                    $('.getcode').text('( '+time+' )').css('color','#aaa')
+                    var timeID = setInterval(function(){
+                        time--;
+                        $('.getcode').text('( '+time+' )')
+                        if(time == 0){
+                            clearInterval(timeID)
+                            $('.getcode').text('获取验证码').css('color','#fff')
+                        }
+                    },1000)
+                }
+            })
+        })
+    </script>
+</body>
+</html>
