@@ -26,7 +26,7 @@ class Agent extends Base
                 ['fpostRealValidate', 'fpostRealValidate', '='],
                 ['fIdentityStatus', 'fIdentityStatus', '=']
             ]);
-            $where[] = ['user_type', '=', 1];
+            $where[] = ['user_node', '=', session('user_invita_code')];
             $order = 'flastUpdateTime desc';
 
             $model = UserModel::where($where);
