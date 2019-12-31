@@ -13,6 +13,7 @@ use app\common\model\CapitalOperateModel;
 use app\common\model\ContractOrderLogModel;
 use app\common\model\SysAuthModel;
 use app\common\model\UserModel;
+use app\common\service\EmailService;
 use app\common\service\SmsService;
 use app\common\model\AdminModel;
 use app\common\service\UploadService;
@@ -74,7 +75,7 @@ class Index extends Base
             if (!$code) {
                 return error('验证码为空');
             }
-            if ($code != session('code') && !env('free_code')) {
+            if ($code != session('code')) {
                 return error('验证码不正确');
             }
 
@@ -106,12 +107,26 @@ class Index extends Base
      */
     public function getCode()
     {
-        $mobile = post('mobile');
-        $res = SmsService::sendCode($mobile, '您的后台登陆验证码为:%s');
-        if (true === $res) {
+        if (env('free_code')) {
+            session('code', 666666);
             return success('发送成功');
         }
-        return success('发送失败:' . $res);
+        
+        $username = post('username');
+        if(preg_match("/^1[34578]{1}\d{9}$/", $username)){
+            $res = SmsService::sendCode($username, '您的后台登陆验证码为:%s');
+            if (true === $res) {
+                return success('已发送到您的手机');
+            }
+        } else {
+            $code = rand(100000, 1000000);
+            $res = EmailService::send($username, '欢迎登陆BZEX代理后台, 您的验证码为: ' . $code);
+            if (true === $res) {
+                session('code', $code);
+                return success('已发送到您的邮箱');
+            }
+        }
+        return error('发送失败: ' . $res);
     }
 
     /**

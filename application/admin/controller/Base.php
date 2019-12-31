@@ -21,7 +21,7 @@ class Base extends Controller
 
     public $skipLogin = [
         'admin/index/login',
-        'admin/index/getCode',
+        'admin/index/getcode',
         'admin/index/test',
     ];
 
@@ -29,9 +29,9 @@ class Base extends Controller
         'admin/index/index',
         'admin/index/login',
         'admin/index/logout',
-        'admin/index/getCode',
+        'admin/index/getcode',
         'admin/index/test',
-        'admin/index/clearCache',
+        'admin/index/clearcache',
         'admin/index/home',
     ];
 

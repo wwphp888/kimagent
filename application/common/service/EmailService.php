@@ -35,7 +35,7 @@ class EmailService
             $mail->addAddress($sendMail);  // 收件人
 
             $mail->isHTML(true);
-            $mail->Subject = '交易所邮箱提示';
+            $mail->Subject = '交易所后台欢迎您';
             $mail->Body = $msg;
 
             $res = $mail->send();

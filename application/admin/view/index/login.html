@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>BZEX代理商后台</title>
     <style>
         *{
             margin: 0;
@@ -25,7 +25,7 @@
             position: absolute;
             min-width: 1360px;
             height: 100%;
-            background: url(/static/img/login_bg.png) no-repeat;
+            background: url(/static/img/login_bg.jpg) no-repeat;
             background-size: 100% 100%;
         }
         #main{
@@ -34,7 +34,7 @@
         #loginbox{
             position: absolute;
             width: 631px;
-            height: 530px;
+            height: 550px;
             top: 310px;
             right: 220px;
             background: url(/static/img/border.png) no-repeat;
@@ -192,8 +192,8 @@
 <body>
     <div class="bg"></div>
     <div id="main">
-        <p id="title-cn">BZEX后台管理系统</p>
-        <p id="title-en">bzex back-office management system</p>
+        <p id="title-cn">BZEX代理商后台管理</p>
+        <p id="title-en">bzex agent management system</p>
         <p></p>
         <form id="loginbox">
             <p class="login-title">用户登录</p>
@@ -259,8 +259,8 @@
                         return;
                     }
 
-                    $.post('/admin/index/getCode', { mobile: username }, function(res) {
-
+                    $.post('/admin/index/getCode', { username: username }, function(res) {
+						alert(res.msg);
                     })
                     $('.getcode').text('( '+time+' )').css('color','#aaa')
                     var timeID = setInterval(function(){
