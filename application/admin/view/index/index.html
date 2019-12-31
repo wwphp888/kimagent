@@ -48,10 +48,25 @@
                 </li>
 
                 <li>
-                    <a class="J_menuItem" href="admin/agent/index">
+                    <a href="#">
                         <i class="fa fa-home"></i>
-                        <span class="nav-label">用户管理</span>
+                        <span class="nav-label">会员管理</span>
+                        <span class="fa arrow"></span>
                     </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a class="J_menuItem" href="/admin/user/index" data-index="0">
+                                <i class="fa fa-circle-o fa-fw"></i>
+                                会员列表
+                            </a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="/admin/user/loginlog" data-index="0">
+                                <i class="fa fa-circle-o fa-fw"></i>
+                                登陆日志
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li>
@@ -62,9 +77,27 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
+                            <a class="J_menuItem" href="/admin/userWallet/index" data-index="0">
+                                <i class="fa fa-circle-o fa-fw"></i>
+                                法币钱包
+                            </a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="/admin/contract.wallet/index" data-index="0">
+                                <i class="fa fa-circle-o fa-fw"></i>
+                                合约钱包
+                            </a>
+                        </li>
+                        <li>
                             <a class="J_menuItem" href="/admin/recharge/index" data-index="0">
                                 <i class="fa fa-circle-o fa-fw"></i>
                                 充值记录
+                            </a>
+                        </li>
+                        <li>
+                            <a class="J_menuItem" href="/admin/recharge/index" data-index="0">
+                                <i class="fa fa-circle-o fa-fw"></i>
+                                提现记录
                             </a>
                         </li>
                     </ul>
@@ -78,9 +111,21 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
+                            <a class="J_menuItem" href="/admin/contract.order/index" data-index="0">
+                                <i class="fa fa-circle-o fa-fw"></i>
+                                委托列表
+                            </a>
                             <a class="J_menuItem" href="/admin/contract.orderlog/index" data-index="0">
                                 <i class="fa fa-circle-o fa-fw"></i>
                                 成交记录
+                            </a>
+                            <a class="J_menuItem" href="/admin/contract.porderlog/index" data-index="0">
+                                <i class="fa fa-circle-o fa-fw"></i>
+                                持仓列表
+                            </a>
+                            <a class="J_menuItem" href="/admin/contract.settle/index" data-index="0">
+                                <i class="fa fa-circle-o fa-fw"></i>
+                                结算列表
                             </a>
                         </li>
                     </ul>

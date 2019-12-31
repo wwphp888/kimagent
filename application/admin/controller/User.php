@@ -28,6 +28,7 @@ class User extends Base
             ]);
             $order = 'flastUpdateTime desc';
 
+            $where[] = ['user_node', '=', session('user_invita_code')];
             $model = UserModel::where($where);
             $data  = $model->order($order)->limit($limit)->select();
 
@@ -180,7 +181,8 @@ class User extends Base
             ]);
             $order = 'fCreateTime desc';
 
-            $model = LogModel::where($where);
+            $where[] = ['b.user_node', '=', session('user_invita_code')];
+            $model = LogModel::alias('a')->join('fuser b', 'a.fkey1=b.fId', 'left')->field('a.*')->where($where);
             $data  = $model->order($order)->limit($limit)->select();
 
             return table_json($model->count(), $data);

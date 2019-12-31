@@ -27,6 +27,7 @@ class Settle extends Base
                 ['create_time', 'a.create_time', 'between']
             ]);
 
+            $where[] = ['b.user_node', '=', session('user_invita_code')];
             $model = ContractSettleModel::where($where);
             $data  = $model->alias('a')
                 ->field('a.*,b.floginName,b.user_node,b.user_type,c.c_name_cn,c.c_nmae_en,c.contract_cate')

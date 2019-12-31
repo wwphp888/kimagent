@@ -27,6 +27,7 @@ class Withdraw extends Base
 
             $where[] = ['a.fType', '=', 2];
             $where[] = ['a.fStatus', 'in', '3,4,5'];
+            $where[] = ['b.user_node', '=', session('user_invita_code')];
             $order = 'a.flastUpdateTime desc';
             $field = 'a.*,b.floginName,b.fNickName,b.fRealName,b.fEmail,b.fTelephone,c.fName as coin';
 

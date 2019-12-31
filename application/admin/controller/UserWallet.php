@@ -29,6 +29,7 @@ class UserWallet extends Base
             $order = 'a.fLastUpdateTime desc';
             $field = 'a.*,b.floginName,b.fNickName,b.fRealName,b.fEmail,b.fTelephone,c.fName as coin';
 
+            $where[] = ['b.user_node', '=', session('user_invita_code')];
             $model = UserWalletModel::alias('a')
                 ->join('fuser b', 'a.fuid = b.fId')
                 ->join('fvirtualcointype c', 'a.fVi_fId = c.fId')

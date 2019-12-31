@@ -29,6 +29,7 @@ class Wallet extends Base
                 ['add_time', 'a.add_time', 'between']
             ]);
 
+            $where[] = ['c.user_node', '=', session('user_invita_code')];
             $model = ContractWalletModel::where($where);
             $data  = $model->alias('a')
                 ->field('a.*,c.floginName,c.user_node,c.user_type,d.c_name_cn,d.c_nmae_en')

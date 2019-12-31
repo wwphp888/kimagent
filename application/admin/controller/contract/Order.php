@@ -20,7 +20,7 @@ class Order extends Base
     {
         if (get('page')) {
             list ($where, $limit) = build_params([
-                ['keyword', 'b.floginName|b.user_node|a.id|a.c_order_number', 'like'],
+                ['keyword', 'b.floginName|a.id|a.c_order_number', 'like'],
                 ['c_state', 'a.c_state', '='],
                 ['c_id', 'a.c_id', '='],
                 ['delegate_type', 'a.delegate_type', '='],
@@ -41,6 +41,8 @@ class Order extends Base
                 $where[] = ['a.c_type', '=', 1];
                 $where[] = ['a.open_type', '=', 1];
             }
+
+            $where[] = ['b.user_node', '=', session('user_invita_code')];
 
             $model = ContractOrderModel::where($where);
             $data  = $model->alias('a')

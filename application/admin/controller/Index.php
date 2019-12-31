@@ -30,6 +30,68 @@ class Index extends Base
      */
     public function home()
     {
+        $rechargeUsers1 = CapitalOperateModel::alias('a')
+            ->join('fuser b', 'a.FUs_fId2=b.fId')
+            ->where('b.user_node', session('user_invita_code'))
+            ->where('a.fCreateTime', '>=', date('Y-m-d'))
+            ->where('a.fCreateTime', '<=', date('Y-m-d H:i:s'))
+            ->value('count(distinct a.FUs_fId2)');
+
+        $rechargeAmount1 = CapitalOperateModel::alias('a')
+            ->join('fuser b', 'a.FUs_fId2=b.fId')
+            ->where('b.user_node', session('user_invita_code'))
+            ->where('a.fCreateTime', '>=', date('Y-m-d'))
+            ->where('a.fCreateTime', '<=', date('Y-m-d H:i:s'))
+            ->value('sum(a.fAmount)');
+
+        $tradeUsers1 = ContractOrderLogModel::alias('a')
+            ->join('fuser b', 'a.f_uid=b.fId')
+            ->where('b.user_node', session('user_invita_code'))
+            ->where('a.add_time', '>=', date('Y-m-d'))
+            ->where('a.add_time', '<=', date('Y-m-d H:i:s'))
+            ->value('count(distinct a.f_uid)');
+
+        $tradeAmount1 = ContractOrderLogModel::alias('a')
+            ->join('fuser b', 'a.f_uid=b.fId')
+            ->where('b.user_node', session('user_invita_code'))
+            ->where('a.add_time', '>=', date('Y-m-d'))
+            ->where('a.add_time', '<=', date('Y-m-d H:i:s'))
+            ->value('sum(a.f_amount)');
+
+        $rechargeAmount1 = $rechargeAmount1 ? $rechargeAmount1 : 0;
+        $tradeAmount1 = $tradeAmount1 ? $tradeAmount1 : 0;
+
+        $rechargeUsers2 = CapitalOperateModel::alias('a')
+            ->join('fuser b', 'a.FUs_fId2=b.fId')
+            ->where('b.user_node', session('user_invita_code'))
+            ->where('a.fCreateTime', '>=', date('Y-m-d', time() - 86400 * 30))
+            ->where('a.fCreateTime', '<=', date('Y-m-d H:i:s'))
+            ->value('count(distinct a.FUs_fId2)');
+
+        $rechargeAmount2 = CapitalOperateModel::alias('a')
+            ->join('fuser b', 'a.FUs_fId2=b.fId')
+            ->where('b.user_node', session('user_invita_code'))
+            ->where('a.fCreateTime', '>=', date('Y-m-d', time() - 86400 * 30))
+            ->where('a.fCreateTime', '<=', date('Y-m-d H:i:s'))
+            ->value('sum(a.fAmount)');
+
+        $tradeUsers2 = ContractOrderLogModel::alias('a')
+            ->join('fuser b', 'a.f_uid=b.fId')
+            ->where('b.user_node', session('user_invita_code'))
+            ->where('a.add_time', '>=', date('Y-m-d', time() - 86400 * 30))
+            ->where('a.add_time', '<=', date('Y-m-d H:i:s'))
+            ->value('count(distinct a.f_uid)');
+
+        $tradeAmount2 = ContractOrderLogModel::alias('a')
+            ->join('fuser b', 'a.f_uid=b.fId')
+            ->where('b.user_node', session('user_invita_code'))
+            ->where('a.add_time', '>=', date('Y-m-d', time() - 86400 * 30))
+            ->where('a.add_time', '<=', date('Y-m-d H:i:s'))
+            ->value('sum(a.f_amount)');
+
+        $rechargeAmount2 = $rechargeAmount2 ? $rechargeAmount2 : 0;
+        $tradeAmount2 = $tradeAmount2 ? $tradeAmount2 : 0;
+
         $rechargeUsers = CapitalOperateModel::alias('a')
             ->join('fuser b', 'a.FUs_fId2=b.fId')
             ->where('b.user_node', session('user_invita_code'))
@@ -53,8 +115,26 @@ class Index extends Base
         $rechargeAmount = $rechargeAmount ? $rechargeAmount : 0;
         $tradeAmount = $tradeAmount ? $tradeAmount : 0;
 
+        $data = [
+            'rechargeUsers1' => $rechargeUsers1,
+            'rechargeAmount1' => $rechargeAmount1,
+            'tradeUsers1' => $tradeUsers1,
+            'tradeAmount1' => $tradeAmount1,
 
-        return view('', compact('rechargeUsers', 'rechargeAmount', 'tradeUsers', 'tradeAmount'));
+            'rechargeUsers2' => $rechargeUsers2,
+            'rechargeAmount2' => $rechargeAmount2,
+            'tradeUsers2' => $tradeUsers2,
+            'tradeAmount2' => $tradeAmount2,
+
+            'rechargeUsers' => $rechargeUsers,
+            'rechargeAmount' => $rechargeAmount,
+            'tradeUsers' => $tradeUsers,
+            'tradeAmount' => $tradeAmount,
+
+        ];
+
+
+        return view('', $data);
     }
 
     /**
