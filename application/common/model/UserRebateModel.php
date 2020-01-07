@@ -1,7 +1,7 @@
 <?php
 namespace app\common\model;
 
-class UserRebate extends BaseModel
+class UserRebateModel extends BaseModel
 {
     /**
      * @var 表

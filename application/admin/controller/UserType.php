@@ -10,7 +10,7 @@ namespace app\admin\controller;
 
 use app\common\model\CommissionRatioModel;
 use app\common\model\UserModel;
-use app\common\model\UserRebate;
+use app\common\model\UserRebateModel;
 
 class UserType extends Base
 {
@@ -162,7 +162,7 @@ class UserType extends Base
             ]);
             $where[] = ['super_user_node', '=', session('user_invita_code')];
             $order = 'add_time desc';
-            $model = UserRebate::where($where);
+            $model = UserRebateModel::where($where);
             $data = $model->order($order)->limit($limit)->select();
 
             return table_json($model->count(), $data);
