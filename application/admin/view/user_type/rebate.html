@@ -1,0 +1,78 @@
+{layout name="/common"}
+<form class="layui-form">
+    <div class="operate-section">
+        <div class="layui-inline">
+            <label class="layui-form-label">会员信息</label>
+            <div class="layui-input-inline">
+                <input class="layui-input layui-input" name="keyword" />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="add_time[]" class="layui-input layui-date">
+            </div>
+            <div class="layui-input-inline">-</div>
+            <div class="layui-input-inline" >
+                <input type="text" name="add_time[]" class="layui-input layui-date">
+            </div>
+            <div class="layui-input-inline">
+                <button class="btn btn-sm btn-primary" lay-submit lay-filter="search">搜索</button>
+                <button class="btn btn-sm btn-white" type="reset">重置</button>
+                <a class="btn btn-sm btn-info export-excel">导出</a>
+                <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<table id="table" lay-filter="table"></table>
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/userType/rebate',
+        id: 'tableins',
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        height : "full-85",
+        cols : [[
+            {field: 'f_account', title: '用户账号'},
+            {field: 'f_uid', title: 'UID'},
+            {field: 'f_parent_id', title: '返佣UID'},
+            {field: 'super_user_node', title: '所属超级节点'},
+            {field: 'ffees', title: '交易手续费'},
+            {field: 'e_rate', title: 'BZB汇率'},
+            {field: 'f_amount', title: '返佣金额'},
+            {field: 'rebate_type', title: '返佣类型', templet: function(d) {
+                if (d.rebate_type == 0) return '普通用户';
+                else if (d.rebate_type == 1) return '超级节点';
+                else if (d.rebate_type == 2) return '管理员';
+                else if (d.rebate_type == 3) return '二级节点';
+                else '';
+            }},
+            {field: 'add_time', title: '添加时间'}
+        ]]
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+
+    lay('.layui-date').each(function(){
+        laydate.render({
+            elem: this,
+            trigger: 'click',
+            type: 'date'
+        });
+    });
+</script>

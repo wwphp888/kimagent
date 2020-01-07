@@ -16,6 +16,7 @@ use app\common\model\StatisticEntrushOrderModel;
 use app\common\model\StatisticEntrushOrderlogModel;
 use app\common\model\StatisticGainsModel;
 use app\common\model\StatisticPorderlogModel;
+use app\common\model\StatisticSecondNodeRebateModel;
 
 class Statistic extends Base
 {
@@ -242,5 +243,26 @@ class Statistic extends Base
             ->select();
 
         return view('', ['data' => $data]);
+    }
+
+    /**
+     * @desc 二级节点返佣统计
+     */
+    public function secondnoderebate()
+    {
+        if (get('page')) {
+            list ($where, $limit) = build_params([
+                ['keyword', 'f_account|f_uid', 'like'],
+                ['statistic_time', 'a.statistic_time', 'between']
+            ]);
+            $where[] = ['b.user_node', '=', session('user_invita_code')];
+            $order = 'a.statistic_time desc';
+
+            $model = StatisticSecondNodeRebateModel::alias('a')->join('fuser b', 'a.uid = b.fId')->field('a.*')->where($where);
+            $data  = $model->order($order)->limit($limit)->select();
+
+            return table_json($model->count(), $data);
+        }
+        return view();
     }
 }
