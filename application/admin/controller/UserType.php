@@ -34,8 +34,8 @@ class UserType extends Base
             foreach ($data as &$v) {
                 $v['introNum'] = UserModel::where('fIntroUser_id', $v['fId'])->count();
                 $fId = $v['fId'];
-                $childNum = UserModel::query("select count(*) as count from fuser t,(select fuserChilrenNode(" . $fId . ") id) a where FIND_IN_SET(t.fid,a.id) and ");
-                $v['childNum'] = $childNum[0]['count'] ? $childNum[0]['count'] - 1 : 0;
+                $child = UserModel::query("select count(*) as count from fuser,(select fuserAllnode({$fId}) cids) a where FIND_IN_SET(fid,a.cids)");
+                $v['childNum'] = $child[0]['count'];
             }
             unset($v);
             return table_json($model->count(), $data);
