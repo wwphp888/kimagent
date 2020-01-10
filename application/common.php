@@ -55,7 +55,7 @@ function get($name = '', $default = null)
  * @param array $data
  * @return string
  */
-function success ($msg, array $data = [])
+function success ($msg = '操作成功', array $data = [])
 {
     return json([
         'code' => 0,
@@ -70,7 +70,7 @@ function success ($msg, array $data = [])
  * @param array $data
  * @return string
  */
-function error ($msg, array $data = [])
+function error ($msg = '操作失败', array $data = [])
 {
     return json([
         'code' => 1,
