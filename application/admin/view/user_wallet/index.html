@@ -1,0 +1,65 @@
+{layout name="/common"}
+<div class="operate-section">
+    <form class="layui-form">
+        <div class="layui-inline">
+            <div class="layui-input-inline" style="width:250px">
+                <input class="layui-input layui-input" name="keyword" placeholder="会员信息" />
+            </div>
+            <div class="layui-input-inline">
+                <select name="coin">
+                    <option value="">--币种--</option>
+                    {foreach $coins as $k => $v}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+            </div>
+
+            <button class="btn btn-sm btn-primary" lay-submit lay-filter="search">搜索</button>
+            <button class="btn btn-sm btn-white" type="reset">重置</button>
+            <a class="btn btn-sm btn-info iframe-refresh"><i class="fa fa-refresh"></i></a>
+            <a class="btn btn-sm btn-info export-excel">导出</a>
+        </div>
+    </form>
+</div>
+<table id="table" lay-filter="table"></table>
+
+<script>
+    form.render();
+    table.render({
+        elem: '#table',
+        url : '/admin/userWallet',
+        id: 'tableins',
+        limit : 20,
+        limits : [10,20,30,50],
+        page : true,
+        height : "full-95",
+        cols : [[
+            {field: 'fId', title: 'ID', align:'center'},
+            {field: 'floginName', title: '会员登陆名', align:'center'},
+            {field: 'fNickName', title: '会员昵称', align:'center'},
+            {field: 'fRealName', title: '会员真实姓名', align:'center'},
+            {field: 'fEmail', title: '会员邮箱', align:'center'},
+            {field: 'fTelephone', title: '会员手机号', align:'center'},
+            {field: 'coin', title: '币种类型', align:'center'},
+            {field: 'fTotal', title: '可用数量', align:'center'},
+            {field: 'fFrozen', title: '冻结数量', align:'center'},
+            {field: 'fLastUpdateTime', title: '修改时间', align:'center'}
+        ]]
+    });
+
+    //搜索
+    form.on('submit(search)', function(data) {
+        table.reload('tableins', {
+            page: {
+                curr: 1
+            },
+            where: data.field
+        })
+        return false;
+    })
+
+    //创建
+    function assetChange (id) {
+        dialog('/admin/userWallet/assetchange?id=' + id, '资金调整', 600);
+    }
+</script>
