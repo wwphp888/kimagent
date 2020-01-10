@@ -44,7 +44,7 @@ class UserType extends Base
     }
 
     /**
-     * @desc 设置超级节点
+     * @desc 设置二级节点
      */
     public function  createSecondNode()
     {
@@ -58,22 +58,21 @@ class UserType extends Base
             }
             try {
                 UserModel::startTrans();
-                $res = UserModel::where('fId', $fId)->update([
-                    'user_type' => 3
-                ]);
+                $res = UserModel::where('fId', $fId)->update(['user_type' => 3]);
                 if (!$res) {
                     throw new \Exception('user update error');
                 }
-
-                if (CommissionRatioModel::where('f_uid', $fId)->find()) {
-                    CommissionRatioModel::where('f_uid', $fId)->update(['f_ratio' => $commision_rate]);
-                } else {
-                    CommissionRatioModel::insert([
-                        'f_uid'     => $fId,
-                        'f_account' => $info['floginName'],
-                        'user_type' => 3,
-                        'f_ratio'   => $commision_rate,
-                        'add_time'  => date('Y-m-d'),
+                //更新佣金比例
+                CommissionRatioModel::where('f_uid', $fId)->update([
+                    'f_ratio' => $commision_rate,
+                    'user_type' => 3
+                ]);
+                //变更伞下的用户的归属二级节点
+                $child = UserModel::query("select fId from fuser,(select fuserAllnode({$fId}) cids) a where FIND_IN_SET(fid,a.cids)");
+                if ($child) {
+                    $ids = array_column($child, 'fId');
+                    UserModel::where('fId', 'in', $ids)->update([
+                        'secondary_node' => $info['user_invita_code'],
                     ]);
                 }
 
@@ -90,7 +89,7 @@ class UserType extends Base
     }
 
     /**
-     * @desc 更新超级节点
+     * @desc 更新二级节点
      */
     public function  updateSecondNode()
     {
@@ -98,25 +97,9 @@ class UserType extends Base
             list ($fId, $commision_rate) = [post('fId'), post('commision_rate')];
             if (!$fId) return error('请选择用户');
             if (!$commision_rate) return error('请设置佣金比例');
-            try {
-                if (CommissionRatioModel::where('f_uid', $fId)->find()) {
-                    CommissionRatioModel::where('f_uid', $fId)->update(['f_ratio' => $commision_rate]);
-                } else {
-                    $info = UserModel::find($fId);
-                    CommissionRatioModel::insert([
-                        'f_uid'     => $fId,
-                        'f_account' => $info['floginName'],
-                        'user_node' => $info['user_node'],
-                        'user_type' => $info['user_type'],
-                        'f_ratio'   => $commision_rate,
-                        'add_time'  => date('Y-m-d'),
-                    ]);
-                }
-                return success();
+            $res = CommissionRatioModel::where('f_uid', $fId)->update(['f_ratio' => $commision_rate]);
+            return $res ? success() : error();
 
-            } catch (\Exception $e) {
-                return error($e->getMessage());
-            }
         }
 
         if (!$fId = get('fId')) {
@@ -133,7 +116,7 @@ class UserType extends Base
 
 
     /**
-     * @desc 取消超级节点
+     * @desc 取消二级节点
      * @return string
      */
     public function cancelSecondNode()
@@ -141,12 +124,25 @@ class UserType extends Base
         if (!$fId = post('fId')) {
             return error('id为空');
         }
+        try {
+            UserModel::startTrans();
 
-        $res = UserModel::where('fId', $fId)->update(['user_type' => 0]);
-        if ($res) {
+            $info = UserModel::find($fId);
+            UserModel::where('fId', $fId)->update(['user_type' => 0]);
+            UserModel::where(['secondary_node' => $info['user_invita_code']])->update(['secondary_node' => null]);
+            CommissionRatioModel::where('f_uid', $fId)->update([
+                'f_ratio'   => 0.2,
+                'user_type' => 0,
+                'user_node' => null
+            ]);
+
+            UserModel::commit();
             return success();
+
+        } catch (\Exception $e) {
+            UserModel::rollback();
+            return error($e->getMessage());
         }
-        return error();
     }
 
     /**
@@ -179,7 +175,7 @@ class UserType extends Base
             list ($where, $limit) = build_params([
                 ['keyword', 'floginName|fRealName|fNickName|fTelephone|fEmail|fIdentityNo', 'like'],
             ]);
-            $where[] = ['a.user_node', '=', session('user_invita_code')];
+            $where[] = ['user_node', '=', session('user_invita_code')];
             $field = 'fId,floginName,fRealName,fNickName,fTelephone,fEmail,fIdentityNo,fStatus';
             $model = UserModel::field($field)->where($where);
             $data  = $model->limit($limit)->select();

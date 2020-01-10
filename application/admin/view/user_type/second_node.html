@@ -52,15 +52,15 @@
     })
 
     $('.btn-create').click(function() {
-        dialog('/admin/userType/createSecondNode', '添加超级节点', 600);
+        dialog('/admin/userType/createSecondNode', '添加二级节点', 600);
     })
 
     function update(fId) {
-        dialog('/admin/userType/updateSecondNode?fId=' + fId, '修改超级节点', 600);
+        dialog('/admin/userType/updateSecondNode?fId=' + fId, '修改二级节点', 600);
     }
     function cancel(fId) {
         layer.confirm('确定执行该操作？', {icon: 3, title: '提示信息'}, function (index) {
-            $.post("/admin/userType/cancelSuperNode", { fId}, function(ret) {
+            $.post("/admin/userType/cancelSecondNode", { fId}, function(ret) {
                 if (ret.code == 0) {
                     success(ret.msg);
                     layer.close(index);
