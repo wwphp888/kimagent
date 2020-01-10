@@ -156,7 +156,7 @@ class UserType extends Base
                 ['keyword', 'f_account|f_uid', 'like'],
                 ['add_time', 'add_time', 'between']
             ]);
-            $where[] = ['super_user_node', '=', session('user_invita_code')];
+            $where[] = ['super_user_node', '=', session('uid')];
             $order = 'add_time desc';
             $model = UserRebateModel::where($where);
             $data = $model->order($order)->limit($limit)->select();
