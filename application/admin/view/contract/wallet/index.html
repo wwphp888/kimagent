@@ -74,10 +74,6 @@
         page : true,
         height : "full-150",
         cols : [[
-            {title: "操作", width: 150, templet:function(d){
-                return '<a class="btn btn-xs btn-info" style="margin-right:10px" onclick="transfer('+d.id+','+d.contract_id+')">划转</a>' +
-                    '<a class="btn btn-xs btn-info" onclick="assetChange('+d.id+')">资金调整</a>';
-            }},
             {field: 'id', title: 'ID', width: 100},
             {field: 'floginName', title: '用户账号', width: 200},
             {field: 'f_uid', title: '用户ID', width: 100},
